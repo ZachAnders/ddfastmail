@@ -6,6 +6,9 @@ DNS records on fastmail. It's primary design is for letting hosts who are stuck 
 dynamic IP addresses automatically update their DNS records whenever their IP address
 changes.
 
+ddfastmail will login to fastmail.fm every time it is invoked, but will only issue
+a POST to the dns configuration page if it detects a record needs updating.
+
 Note: This script only updates existing records, and will not add new ones.
 
 Configuration
@@ -20,23 +23,23 @@ This can be changed by passing an alternate configuration file on the commandlin
 	./ddfastmail.py myconfig.json
 
 YOUR CONFIGURATION FILE MUST NOT BE GROUP OR WORLD READABLE.
-ddfastmail will not read the configuration file if your permissiong are too
+ddfastmail will not read the configuration file if your permissions are too
 open. This is because the credentials in the configuration file could also
-be used to infiltrate your fastmail account, and thus you should take their
+be used to infiltrate your fastmail account. You should take their
 security very seriously.
 
-Syntax:
-	Domain records in the configuration prefixed with '$' are evaluated as python
-	statements, and thus can contain variable reference, function calls, or more advanced
-	expressions.
+####Syntax:
+Domain records in the configuration prefixed with '$' are evaluated as python
+statements, and thus can contain variable reference, function calls, or more advanced
+expressions.
 
 Included are two example configuration files
 simpleconfig.json
-	Simplest possible case. Sets fastmail credentials and a single domain
-	to update. $current_ip causes ddfastmail to attempt to eval('current_ip'),
-	which resolves to an internal variable set inside ddfastmail.
+> Simplest possible case. Sets fastmail credentials and a single domain
+> to update. $current_ip causes ddfastmail to attempt to eval('current_ip'),
+> which resolves to an internal variable set inside ddfastmail.
 
 examplerecordtypes.json
-	Shows both multiple domains and multple records types, all of which
-	could potentially be configured separately. Shows both dynamic IPs and
-	static IPs. Also include a TXT record.
+> Shows both multiple domains and multple records types, all of which
+> could potentially be configured separately. Shows both dynamic IPs and
+> static IPs. Also include a TXT record.
