@@ -7,10 +7,10 @@
 			"A" : "$current_ip",
 			"MX": "$current_ip"
 		},
-		"ns1.example.com": {
+		"*.sub.example.com": {
 			"A" : "$current_ip",
 			"NS": "$current_ip",
-			"TXT":"This is the primary nameserver."
+			"TXT":"I am the primary nameserver for all those subdomains!"
 		}
 	}
 }
