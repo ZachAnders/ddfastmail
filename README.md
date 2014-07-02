@@ -34,6 +34,7 @@ statements, and thus can contain variable reference, function calls, or more adv
 expressions.
 
 Included are two example configuration files
+
 simpleconfig.json
 > Simplest possible case. Sets fastmail credentials and a single domain
 > to update. $current_ip causes ddfastmail to attempt to eval('current_ip'),
