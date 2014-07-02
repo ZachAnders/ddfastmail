@@ -1,0 +1,7 @@
+{
+	"username" : "myuser@fastmail.fm",
+	"password" : "mypass",
+	"domains" : {
+		"example.com": "$current_ip"
+	}
+}
