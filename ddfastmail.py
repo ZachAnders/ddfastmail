@@ -10,6 +10,8 @@ import requests, re, os, sys
 import json
 from bs4 import BeautifulSoup
 
+FASTMAIL_URL = "https://www.fastmail.com"
+
 class FastmailUpdater():
 	""" The fastmail updater manages the state necessary to navigate Fastmail's
 		Web interface. By maintaining an internal session, you can perform multiple
@@ -22,7 +24,7 @@ class FastmailUpdater():
 	def login(self, username, password):
 		""" Attempts to login to fastmail with the given username and password.
 			If we fail to login to fastmail, this method will throw a RuntimeError """
-		response = self.sess.get("https://www.fastmail.fm")
+		response = self.sess.get(FASTMAIL_URL)
 
 		session_key = re.search('<input value="([0-9a-g]*)" name="sessionKey"', response.content, re.IGNORECASE).group(1)
 		form = {"sessionKey": session_key,
@@ -34,7 +36,7 @@ class FastmailUpdater():
 				'screenSize': 'desktop',
 				}
 
-		response = self.sess.post("https://www.fastmail.fm", form)
+		response = self.sess.post(FASTMAIL_URL, form, headers={'referer':FASTMAIL_URL})
 		result = re.search("&u=([0-9]*)&", response.content)
 		if result is None:
 			raise ValueError("Could not find user_id! (Wrong username/password?)")
@@ -133,7 +135,7 @@ class FastmailUpdater():
 			an update if it detects a change. """
 		if not self.logged_in:
 			raise RuntimeError("Please log in first")
-		dns_page = "https://www.fastmail.fm/html/?MLS=ASE-*&u=%s&MSignal=CD-*U-1" % self.user_id
+		dns_page = FASTMAIL_URL + "/html/?MLS=ASE-*&u=%s&MSignal=CD-*U-1" % self.user_id
 		response = self.sess.get(dns_page)
 
 		page = BeautifulSoup(response.content)
@@ -159,7 +161,7 @@ class FastmailUpdater():
 
 		if form_needs_update:
 			print("One or more records need updating. Submitting request...")
-			response = self.sess.post("https://www.fastmail.fm/html/?u=%s" % self.user_id, form)
+			response = self.sess.post(FASTMAIL_URL + "/html/?u=%s" % self.user_id, form)
 			if not response.ok:
 				print("Failed to submit request: %s" % response.text)
 				response.raise_for_status() #Should raise an HTTPError with error code/msg
