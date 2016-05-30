@@ -37,7 +37,7 @@ class FastmailUpdater():
 				}
 
 		response = self.sess.post(FASTMAIL_URL, form, headers={'referer':FASTMAIL_URL})
-		result = re.search("&u=([0-9]*)&", response.content)
+		result = re.search("u=([0-9a-g]*)&", response.content)
 		if result is None:
 			raise ValueError("Could not find user_id! (Wrong username/password?)")
 		else:
