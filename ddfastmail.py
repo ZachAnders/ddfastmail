@@ -171,7 +171,7 @@ class FastmailUpdater():
 def get_ip():
 	""" Simple helper method that retrieves the current hosts outward facing IP address.
 		Uses the free service at ifconfig.me """
-	ip = requests.get("http://ifconfig.me/ip").text
+	ip = requests.get("http://whatismyip.akamai.com").text
 	return ip.strip()
 
 if __name__ == "__main__":
